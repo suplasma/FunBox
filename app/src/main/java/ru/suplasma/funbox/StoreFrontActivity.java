@@ -21,6 +21,7 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
     private float fromPosition;
     private TextView name, price, quantity;
     private int page = 0, maxPage;
+    private DataBase data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,13 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
         price = findViewById(R.id.text2);
         quantity = findViewById(R.id.text3);
 
-        read();
+        Progress.names = new LinkedList<>();
+        Progress.prices = new LinkedList<>();
+        Progress.quantities = new LinkedList<>();
+
+        data = new DataBase(this);
+
+        data.read();
     }
 
     @Override
@@ -47,31 +54,40 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
 
         maxPage = Progress.quantities.size();
 
+        if (Progress.quantities.size() == 0) {
+            page = -1;
+            refreshScreen();
+            return;
+        }
+
+        if (page == -1)
+            page++;
+
+        int count = 0;
         while (Progress.quantities.get(page) == 0) {
             page++;
+            count++;
             if (page == maxPage)
                 page = 0;
+            if (count == maxPage)
+                break;
         }
+
+        if (count == maxPage)
+            page = -1;
 
         refreshScreen();
     }
 
     private void refreshScreen() {
-        name.setText(Progress.names.get(page));
-        price.setText(String.valueOf(Progress.prices.get(page)));
-        quantity.setText(String.valueOf(Progress.quantities.get(page)));
-
-    }
-
-    private void read() {
-        Progress.names = new LinkedList<>();
-        Progress.prices = new LinkedList<>();
-        Progress.quantities = new LinkedList<>();
-
-        for (int i = 0; i < 10; i++) {
-            Progress.names.add(i + "");
-            Progress.prices.add(i);
-            Progress.quantities.add(i);
+        if (page != -1) {
+            name.setText(Progress.names.get(page));
+            price.setText(String.valueOf(Progress.prices.get(page)));
+            quantity.setText(String.valueOf(Progress.quantities.get(page)));
+        } else {
+            name.setText(R.string.strEmpty);
+            price.setText(R.string.strEmpty);
+            quantity.setText(R.string.strEmpty);
         }
     }
 
@@ -94,41 +110,66 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
     }
 
     private void showNext() {
-        if (page + 1 < maxPage)
-            page++;
-        else
-            page = 0;
+        if (page == -1) {
+            flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_in));
+            flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_out));
+            flipper.showNext();
 
-        while (Progress.quantities.get(page) == 0) {
-            page++;
-            if (page == maxPage)
+            refreshScreen();
+        } else {
+            if (page + 1 < maxPage)
+                page++;
+            else
                 page = 0;
+
+            int count = 0;
+            while (Progress.quantities.get(page) == 0) {
+                page++;
+                count++;
+                if (page == maxPage)
+                    page = 0;
+                if (count == maxPage)
+                    break;
+            }
+
+            if (count == maxPage)
+                page = -1;
+
+            flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_in));
+            flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_out));
+            flipper.showNext();
+
+            refreshScreen();
         }
-
-        flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_in));
-        flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_out));
-        flipper.showNext();
-
-        refreshScreen();
     }
 
     private void showPrevious() {
-        if (page - 1 >= 0)
-            page--;
-        else
-            page = maxPage - 1;
+        if (page == -1) {
+            flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_in));
+            flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.go_next_out));
+            flipper.showNext();
 
-        while (Progress.quantities.get(page) == 0) {
-            page--;
-            if (page < 0)
+            refreshScreen();
+        } else {
+            if (page - 1 >= 0)
+                page--;
+            else
                 page = maxPage - 1;
+
+            if (page != -1) {
+                while (Progress.quantities.get(page) == 0) {
+                    page--;
+                    if (page < 0)
+                        page = maxPage - 1;
+                }
+            }
+
+            flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.go_prev_in));
+            flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.go_prev_out));
+            flipper.showPrevious();
+
+            refreshScreen();
         }
-
-        flipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.go_prev_in));
-        flipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.go_prev_out));
-        flipper.showPrevious();
-
-        refreshScreen();
     }
 
     public void onClick(View view) {
@@ -138,10 +179,18 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
                 break;
             }
             case R.id.btnBuy: {
+                if (page == -1)
+                    break;
+
                 if (Progress.quantities.get(page) > 0) {
                     Progress.quantities.set(page, Progress.quantities.get(page) - 1);
                     quantity.setText(String.valueOf(Progress.quantities.get(page)));
                     Toast.makeText(this, R.string.strBought, Toast.LENGTH_SHORT).show();
+
+                    data.write(page,
+                            Progress.names.get(page),
+                            String.valueOf(Progress.prices.get(page)),
+                            String.valueOf(Progress.quantities.get(page)));
 
                     if (Progress.quantities.get(page) == 0) {
 

@@ -10,26 +10,31 @@ import android.widget.ListView;
 
 public class BackEndActivity extends AppCompatActivity {
 
-    ListView listView;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_back_end);
 
-        listView=findViewById(R.id.list);
+        listView = findViewById(R.id.list);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, Progress.names);
 
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Progress.flag = position;
-                startActivity(new Intent(BackEndActivity.this, EditActivity.class));
-            }
-        });
+
+        try {
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    startActivity(new Intent(BackEndActivity.this, EditActivity.class).putExtra("id", position));
+                }
+            });
+        }catch (NullPointerException e){
+            finish();
+        }
+
     }
 
     public void onClick(View view) {
@@ -41,8 +46,7 @@ public class BackEndActivity extends AppCompatActivity {
             }
 
             case R.id.btnEdit: {
-                Progress.flag = -1;
-                startActivity(new Intent(this, EditActivity.class));
+                startActivity(new Intent(this, EditActivity.class).putExtra("id", -1));
 
                 break;
             }

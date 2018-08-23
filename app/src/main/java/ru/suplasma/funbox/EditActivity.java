@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 public class EditActivity extends AppCompatActivity {
 
-    EditText name, price, quantity;
+    private EditText name, price, quantity;
+    private DataBase data = new DataBase(this);
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,27 +21,31 @@ public class EditActivity extends AppCompatActivity {
         price = findViewById(R.id.editText2);
         quantity = findViewById(R.id.editText3);
 
-        if (Progress.flag != -1) {
-            name.setText(Progress.names.get(Progress.flag));
-            price.setText(String.valueOf(Progress.prices.get(Progress.flag)));
-            quantity.setText(String.valueOf(Progress.quantities.get(Progress.flag)));
+        id = getIntent().getIntExtra("id", -1);
+
+        if (id != -1) {
+            name.setText(Progress.names.get(id));
+            price.setText(String.valueOf(Progress.prices.get(id)));
+            quantity.setText(String.valueOf(Progress.quantities.get(id)));
         }
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSave: {
-                if (Progress.flag == -1) {
+                if (id == -1) {
                     Progress.names.add(name.getText().toString());
                     Progress.prices.add(Integer.parseInt(price.getText().toString()));
                     Progress.quantities.add(Integer.parseInt(quantity.getText().toString()));
                 } else {
-                    Progress.names.set(Progress.flag, name.getText().toString());
-                    Progress.prices.set(Progress.flag, Integer.parseInt(price.getText().toString()));
-                    Progress.quantities.set(Progress.flag, Integer.parseInt(quantity.getText().toString()));
+                    Progress.names.set(id, name.getText().toString());
+                    Progress.prices.set(id, Integer.parseInt(price.getText().toString()));
+                    Progress.quantities.set(id, Integer.parseInt(quantity.getText().toString()));
                 }
 
                 Toast.makeText(this, R.string.strSave, Toast.LENGTH_SHORT).show();
+
+                data.write(id, name.getText().toString(), price.getText().toString(), quantity.getText().toString());
 
                 break;
             }

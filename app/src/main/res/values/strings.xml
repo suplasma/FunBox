@@ -3,4 +3,5 @@
     <string name="strBought">Куплено</string>
     <string name="strSave">Сохранено</string>
     <string name="strCancel">Отмена</string>
+    <string name="strEmpty">(пусто)</string>
 </resources>
