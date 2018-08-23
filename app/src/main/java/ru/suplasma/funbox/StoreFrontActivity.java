@@ -19,8 +19,6 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
 
     private ViewFlipper flipper = null;
     private float fromPosition;
-    private LinkedList<String> names;
-    private LinkedList<Integer> prices, quantities;
     private TextView name, price, quantity;
     private int page = 0, maxPage;
 
@@ -40,15 +38,16 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
         price = findViewById(R.id.text2);
         quantity = findViewById(R.id.text3);
 
-        names = new LinkedList<>();
-        prices = new LinkedList<>();
-        quantities = new LinkedList<>();
-
         read();
+    }
 
-        maxPage = quantities.size();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        while (quantities.get(page) == 0) {
+        maxPage = Progress.quantities.size();
+
+        while (Progress.quantities.get(page) == 0) {
             page++;
             if (page == maxPage)
                 page = 0;
@@ -58,17 +57,21 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
     }
 
     private void refreshScreen() {
-        name.setText(names.get(page));
-        price.setText(String.valueOf(prices.get(page)));
-        quantity.setText(String.valueOf(quantities.get(page)));
+        name.setText(Progress.names.get(page));
+        price.setText(String.valueOf(Progress.prices.get(page)));
+        quantity.setText(String.valueOf(Progress.quantities.get(page)));
 
     }
 
     private void read() {
+        Progress.names = new LinkedList<>();
+        Progress.prices = new LinkedList<>();
+        Progress.quantities = new LinkedList<>();
+
         for (int i = 0; i < 10; i++) {
-            names.add(i + "");
-            prices.add(i);
-            quantities.add(i);
+            Progress.names.add(i + "");
+            Progress.prices.add(i);
+            Progress.quantities.add(i);
         }
     }
 
@@ -96,7 +99,7 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
         else
             page = 0;
 
-        while (quantities.get(page) == 0) {
+        while (Progress.quantities.get(page) == 0) {
             page++;
             if (page == maxPage)
                 page = 0;
@@ -115,7 +118,7 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
         else
             page = maxPage - 1;
 
-        while (quantities.get(page) == 0) {
+        while (Progress.quantities.get(page) == 0) {
             page--;
             if (page < 0)
                 page = maxPage - 1;
@@ -135,12 +138,12 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
                 break;
             }
             case R.id.button: {
-                if (quantities.get(page) > 0) {
-                    quantities.set(page, quantities.get(page) - 1);
-                    quantity.setText(String.valueOf(quantities.get(page)));
+                if (Progress.quantities.get(page) > 0) {
+                    Progress.quantities.set(page, Progress.quantities.get(page) - 1);
+                    quantity.setText(String.valueOf(Progress.quantities.get(page)));
                     Toast.makeText(this, R.string.strBought, Toast.LENGTH_SHORT).show();
 
-                    if (quantities.get(page) == 0) {
+                    if (Progress.quantities.get(page) == 0) {
 
                         showNext();
 
