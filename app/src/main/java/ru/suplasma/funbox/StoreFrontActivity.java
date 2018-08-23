@@ -133,11 +133,11 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn: {
+            case R.id.btnBackEnd: {
                 startActivity(new Intent(this, BackEndActivity.class));
                 break;
             }
-            case R.id.button: {
+            case R.id.btnBuy: {
                 if (Progress.quantities.get(page) > 0) {
                     Progress.quantities.set(page, Progress.quantities.get(page) - 1);
                     quantity.setText(String.valueOf(Progress.quantities.get(page)));

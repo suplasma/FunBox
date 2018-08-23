@@ -12,7 +12,7 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -20,20 +20,15 @@
             android:text="Button" />
     </FrameLayout>
 
-    <ScrollView
+    <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical">
 
+    </ListView>
 
-        </LinearLayout>
-
-    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,10 +37,10 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnStoreFront"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/btn"
             android:onClick="onClick"
             android:text="Button" />
 

@@ -18,11 +18,17 @@ public class EditActivity extends AppCompatActivity {
         name = findViewById(R.id.editText);
         price = findViewById(R.id.editText2);
         quantity = findViewById(R.id.editText3);
+
+        if (Progress.flag != -1) {
+            name.setText(Progress.names.get(Progress.flag));
+            price.setText(String.valueOf(Progress.prices.get(Progress.flag)));
+            quantity.setText(String.valueOf(Progress.quantities.get(Progress.flag)));
+        }
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button4: {
+            case R.id.btnSave: {
                 if (Progress.flag == -1) {
                     Progress.names.add(name.getText().toString());
                     Progress.prices.add(Integer.parseInt(price.getText().toString()));
@@ -33,12 +39,12 @@ public class EditActivity extends AppCompatActivity {
                     Progress.quantities.set(Progress.flag, Integer.parseInt(quantity.getText().toString()));
                 }
 
-                Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.strSave, Toast.LENGTH_SHORT).show();
 
                 break;
             }
-            case R.id.button3: {
-                Toast.makeText(this, "Отмена", Toast.LENGTH_SHORT).show();
+            case R.id.btnCancel: {
+                Toast.makeText(this, R.string.strCancel, Toast.LENGTH_SHORT).show();
 
                 break;
             }
