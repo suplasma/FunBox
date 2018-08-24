@@ -2,26 +2,33 @@ package ru.suplasma.funbox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
+
+import static ru.suplasma.funbox.Progress.maxPage;
+import static ru.suplasma.funbox.Progress.page;
 
 public class StoreFrontActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private ViewFlipper flipper = null;
     private float fromPosition;
     private TextView name, price, quantity;
-    private int page = 0, maxPage;
     private DataBase data;
+    private Handler handler;
+    private Button bntBuy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +46,27 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
         price = findViewById(R.id.text2);
         quantity = findViewById(R.id.text3);
 
+        bntBuy = findViewById(R.id.btnBuy);
+
         Progress.names = new LinkedList<>();
         Progress.prices = new LinkedList<>();
         Progress.quantities = new LinkedList<>();
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(android.os.Message ms) {
+                quantity.setText(String.valueOf(Progress.quantities.get(page)));
+                Toast.makeText(getApplicationContext(), R.string.strBought, Toast.LENGTH_SHORT).show();
+
+                if (Progress.quantities.get(page) == 0) {
+
+                    showNext();
+
+                }
+                bntBuy.setEnabled(true);
+                startActivity(new Intent(getApplicationContext(),StoreFrontActivity.class));
+            }
+        };
 
         data = new DataBase(this);
 
@@ -182,22 +207,27 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
                 if (page == -1)
                     break;
 
-                if (Progress.quantities.get(page) > 0) {
-                    Progress.quantities.set(page, Progress.quantities.get(page) - 1);
-                    quantity.setText(String.valueOf(Progress.quantities.get(page)));
-                    Toast.makeText(this, R.string.strBought, Toast.LENGTH_SHORT).show();
+                bntBuy.setEnabled(false);
 
-                    data.write(page,
-                            Progress.names.get(page),
-                            String.valueOf(Progress.prices.get(page)),
-                            String.valueOf(Progress.quantities.get(page)));
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (Progress.quantities.get(page) > 0) {
+                            Progress.quantities.set(page, Progress.quantities.get(page) - 1);
 
-                    if (Progress.quantities.get(page) == 0) {
+                            data.write(page,
+                                    Progress.names.get(page),
+                                    String.valueOf(Progress.prices.get(page)),
+                                    String.valueOf(Progress.quantities.get(page)));
 
-                        showNext();
+                            handler.sendEmptyMessage(1);
 
+                        }
                     }
-                }
+                });
+
+                thread.start();
+
                 break;
             }
         }

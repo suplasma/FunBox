@@ -40,8 +40,8 @@ public class DataBase implements DBInterface {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(DBHelper.KEY_NAME, name);
-        contentValues.put(DBHelper.KEY_PRICE, quantity);
-        contentValues.put(DBHelper.KEY_QUANTITY, price);
+        contentValues.put(DBHelper.KEY_PRICE, price);
+        contentValues.put(DBHelper.KEY_QUANTITY, quantity);
 
         if (id == -1) {
             database.insert(DBHelper.TABLE_NAME, null, contentValues);

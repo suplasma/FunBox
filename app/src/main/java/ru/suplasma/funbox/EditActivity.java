@@ -1,16 +1,21 @@
 package ru.suplasma.funbox;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.concurrent.TimeUnit;
+
 public class EditActivity extends AppCompatActivity {
 
     private EditText name, price, quantity;
     private DataBase data = new DataBase(this);
     private int id;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +33,32 @@ public class EditActivity extends AppCompatActivity {
             price.setText(String.valueOf(Progress.prices.get(id)));
             quantity.setText(String.valueOf(Progress.quantities.get(id)));
         }
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(android.os.Message ms) {
+                Toast.makeText(getApplicationContext(), R.string.strSave, Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(getApplicationContext(),StoreFrontActivity.class));
+            }
+        };
+
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSave: {
-                if (id == -1) {
-                    Progress.names.add(name.getText().toString());
-                    Progress.prices.add(Integer.parseInt(price.getText().toString()));
-                    Progress.quantities.add(Integer.parseInt(quantity.getText().toString()));
-                } else {
-                    Progress.names.set(id, name.getText().toString());
-                    Progress.prices.set(id, Integer.parseInt(price.getText().toString()));
-                    Progress.quantities.set(id, Integer.parseInt(quantity.getText().toString()));
-                }
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                Toast.makeText(this, R.string.strSave, Toast.LENGTH_SHORT).show();
+                        data.write(id, name.getText().toString(), price.getText().toString(), quantity.getText().toString());
 
-                data.write(id, name.getText().toString(), price.getText().toString(), quantity.getText().toString());
+                        handler.sendEmptyMessage(1);
+                    }
+                });
+
+                thread.start();
 
                 break;
             }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class BackEndActivity extends AppCompatActivity {
@@ -31,7 +32,7 @@ public class BackEndActivity extends AppCompatActivity {
                     startActivity(new Intent(BackEndActivity.this, EditActivity.class).putExtra("id", position));
                 }
             });
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             finish();
         }
 
