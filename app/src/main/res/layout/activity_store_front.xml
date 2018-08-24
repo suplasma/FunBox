@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="@string/btnStoreFront" />
 
         <Button
             android:layout_width="0dp"
@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:id="@+id/btnBackEnd"
             android:onClick="onClick"
-            android:text="Button" />
+            android:text="@string/btnBackEnd" />
     </LinearLayout>
 
 </LinearLayout>

@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:text="Button" />
+            android:text="@string/btnCancel" />
 
         <Button
             android:id="@+id/btnSave"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:onClick="onClick"
-            android:text="Button" />
+            android:text="@string/btnSave" />
     </FrameLayout>
 
     <ScrollView
@@ -34,72 +34,87 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indentation"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:textSize="@dimen/textSize"
+                    android:text="@string/tvName" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indentation"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:textSize="@dimen/textSize"
                     android:inputType="textPersonName" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indentation"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:textSize="@dimen/textSize"
+                    android:text="@string/tvPrice" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editText2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indentation"
                     android:layout_weight="1"
+                    android:textSize="@dimen/textSize"
                     android:ems="10"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:text="" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indentation"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:textSize="@dimen/textSize"
+                    android:text="@string/tvQuantity" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,10 +124,12 @@
 
                 <EditText
                     android:id="@+id/editText3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indentation"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:textSize="@dimen/textSize"
                     android:inputType="number"
                     android:text="" />
             </LinearLayout>

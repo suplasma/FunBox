@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:onClick="onClick"
-            android:text="Button" />
+            android:text="@string/btnAdd" />
     </FrameLayout>
 
     <ListView
@@ -42,13 +42,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onClick"
-            android:text="Button" />
+            android:text="@string/btnStoreFront" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="@string/btnBackEnd" />
     </LinearLayout>
 
 </LinearLayout>

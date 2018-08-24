@@ -9,17 +9,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 
 import static ru.suplasma.funbox.Progress.maxPage;
 import static ru.suplasma.funbox.Progress.page;
+
+import java.text.NumberFormat;
 
 public class StoreFrontActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -28,7 +28,7 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
     private TextView name, price, quantity;
     private DataBase data;
     private Handler handler;
-    private Button bntBuy;
+    private static final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +42,10 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         flipper.addView(inflater.inflate(R.layout.layout_product, null));
 
-        name = findViewById(R.id.text);
-        price = findViewById(R.id.text2);
-        quantity = findViewById(R.id.text3);
+        name = findViewById(R.id.tvName);
+        price = findViewById(R.id.tvPrice);
+        quantity = findViewById(R.id.tvQuantity);
 
-        bntBuy = findViewById(R.id.btnBuy);
 
         Progress.names = new LinkedList<>();
         Progress.prices = new LinkedList<>();
@@ -63,8 +62,7 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
                     showNext();
 
                 }
-                bntBuy.setEnabled(true);
-                startActivity(new Intent(getApplicationContext(),StoreFrontActivity.class));
+                startActivity(new Intent(getApplicationContext(), StoreFrontActivity.class));
             }
         };
 
@@ -107,8 +105,8 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
     private void refreshScreen() {
         if (page != -1) {
             name.setText(Progress.names.get(page));
-            price.setText(String.valueOf(Progress.prices.get(page)));
-            quantity.setText(String.valueOf(Progress.quantities.get(page)));
+            price.setText(currencyFormat.format(Progress.prices.get(page)));
+            quantity.setText(String.valueOf(Progress.quantities.get(page)) + " шт.");
         } else {
             name.setText(R.string.strEmpty);
             price.setText(R.string.strEmpty);
@@ -206,8 +204,6 @@ public class StoreFrontActivity extends AppCompatActivity implements View.OnTouc
             case R.id.btnBuy: {
                 if (page == -1)
                     break;
-
-                bntBuy.setEnabled(false);
 
                 Thread thread = new Thread(new Runnable() {
                     @Override

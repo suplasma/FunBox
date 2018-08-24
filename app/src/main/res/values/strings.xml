@@ -4,4 +4,13 @@
     <string name="strSave">Сохранено</string>
     <string name="strCancel">Отмена</string>
     <string name="strEmpty">(пусто)</string>
+    <string name="btnBackEnd">Back-End</string>
+    <string name="btnStoreFront">Store-Front</string>
+    <string name="btnAdd">+</string>
+    <string name="btnBuy">Купить</string>
+    <string name="btnCancel">Отмена</string>
+    <string name="btnSave">Сохранить</string>
+    <string name="tvName">Название</string>
+    <string name="tvPrice">Цена</string>
+    <string name="tvQuantity">Количество</string>
 </resources>

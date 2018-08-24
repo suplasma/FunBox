@@ -8,6 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BackEndActivity extends AppCompatActivity {
 
@@ -20,8 +24,20 @@ public class BackEndActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.list);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, Progress.names);
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        HashMap<String, String> map;
+
+        for (int i = 0; i < Progress.names.size(); i++) {
+            map = new HashMap<>();
+            map.put("Name", Progress.names.get(i));
+            map.put("Quantity", String.valueOf(Progress.quantities.get(i)) + " шт.");
+            arrayList.add(map);
+        }
+
+
+        SimpleAdapter adapter = new SimpleAdapter(this, arrayList, R.layout.latout_list_item,
+                new String[]{"Name", "Quantity"},
+                new int[]{R.id.text1, R.id.text2});
 
 
         try {

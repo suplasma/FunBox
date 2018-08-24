@@ -24,7 +24,7 @@ public class DataBase implements DBInterface {
             int quantityIndex = cursor.getColumnIndex(DBHelper.KEY_QUANTITY);
             do {
                 Progress.names.add(cursor.getString(nameIndex));
-                Progress.prices.add(cursor.getInt(priceIndex));
+                Progress.prices.add(cursor.getDouble(priceIndex));
                 Progress.quantities.add(cursor.getInt(quantityIndex));
             } while (cursor.moveToNext());
         }

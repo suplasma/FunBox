@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("create table " + TABLE_NAME + "(" +
                 KEY_ID + " integer primary key, " +
                 KEY_NAME + " text, " +
-                KEY_PRICE + " integer, " +
+                KEY_PRICE + " double, " +
                 KEY_QUANTITY + " integer )");
     }
 

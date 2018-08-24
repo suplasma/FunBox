@@ -10,12 +10,12 @@
         android:layout_weight="1">
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
             android:layout_marginStart="@dimen/indentation"
-            android:text="TextView" />
+            android:textSize="@dimen/textSize" />
     </FrameLayout>
 
     <FrameLayout
@@ -27,16 +27,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
+            android:textSize="@dimen/textSize"
             android:layout_marginStart="@dimen/indentation"
-            android:text="TextView" />
+            android:text="@string/tvPrice" />
 
         <TextView
-            android:id="@+id/text2"
+            android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize"
             android:layout_gravity="right|center"
-            android:layout_marginEnd="@dimen/indentation"
-            android:text="TextView" />
+            android:layout_marginEnd="@dimen/indentation" />
 
     </FrameLayout>
 
@@ -49,16 +50,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
+            android:textSize="@dimen/textSize"
             android:layout_marginStart="@dimen/indentation"
-            android:text="TextView" />
+            android:text="@string/tvQuantity" />
 
         <TextView
-            android:id="@+id/text3"
+            android:id="@+id/tvQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
-            android:layout_marginEnd="@dimen/indentation"
-            android:text="TextView" />
+            android:textSize="@dimen/textSize"
+            android:layout_marginEnd="@dimen/indentation" />
     </FrameLayout>
 
     <FrameLayout
@@ -72,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:onClick="onClick"
-            android:text="Button" />
+            android:text="@string/btnBuy" />
     </FrameLayout>
 
 </LinearLayout>
